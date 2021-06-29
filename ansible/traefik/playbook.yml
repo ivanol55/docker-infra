@@ -1,0 +1,14 @@
+- hosts: localhost
+  vars:
+    - subdomain: SUBDOMAIN
+    - domain: DOMAIN.TLD
+    - email: EMAIL@DOMAIN.TLD
+  tasks:
+    - name: build docker compose file
+      template:
+        src: docker-compose.yml
+        dest: ../../docker-compose/traefik/docker-compose.yml
+    - name: build traefik yml file
+      template:
+        src: data/traefik.yml
+        dest: ../../docker-compose/traefik/data/traefik.yml

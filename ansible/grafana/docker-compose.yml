@@ -1,5 +1,4 @@
-version: "3"
-
+version: "3.6"
 services:
   grafana:
     user: "0"
@@ -10,24 +9,20 @@ services:
       - "traefik.protocol=http"
       - "traefik.docker.network=proxy"
       - "traefik.http.routers.grafana-secure.entrypoints=websecure"
-      - "traefik.http.routers.grafana-secure.rule=Host(`YOURDOMAIN.TLD`)"
+      - "traefik.http.routers.grafana-secure.rule=Host(`{{ subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.grafana-secure.service=grafana-service"
       - "traefik.http.services.grafana-service.loadbalancer.server.port=3000"
-    ports:
-      - 3000:3000
     image: grafana/grafana:latest
     volumes:
       - /opt/docker-data/grafana/data:/var/lib/grafana
-      - /opt/docker-data/grafana/etc:/etc/grafana # for the domain config
+      - /opt/docker-data/grafana/etc:/etc/grafana
     environment:
-      - GF_SERVER_ROOT_URL=https://YOURDOMAIN.TLD:3000/
-      - GF_SERVER_DOMAIN=TOURDOMAIN.TLD
+      - GF_SERVER_ROOT_URL=https://{{ subdomain }}.{{ domain }}:3000/
+      - GF_SERVER_DOMAIN={{ subdomain}}.{{ domain }}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=adminadmin
 networks:
   proxy:
     external: true
-volumes:
-  grafana-data:
 

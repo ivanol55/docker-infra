@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.6'
 services:
   bitwarden:
     image: vaultwarden/server:latest
@@ -15,12 +15,12 @@ services:
       - "traefik.docker.network=proxy"
       # Entry Point for https
       - "traefik.http.routers.bitwarden-secure.entrypoints=websecure"
-      - "traefik.http.routers.bitwarden-secure.rule=Host(`vaultwardenivan.duckdns.org`)"
+      - "traefik.http.routers.bitwarden-secure.rule=Host(`{{ subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.bitwarden-secure.service=bitwarden-service"
       - "traefik.http.services.bitwarden-service.loadbalancer.server.port=80"
       # websocket
       - "traefik.http.routers.bitwarden-ws.entrypoints=websecure"
-      - "traefik.http.routers.bitwarden-ws.rule=Host(`vaultwardenivan.duckdns.org`) && Path(`/notifications/hub`)"
+      - "traefik.http.routers.bitwarden-ws.rule=Host(`{{ subdomain }}.{{ domain }}`) && Path(`/notifications/hub`)"
       - "traefik.http.middlewares.bitwarden-ws=bw-stripPrefix@file"
       - "traefik.http.routers.bitwarden-ws.service=bitwarden-websocket"
       - "traefik.http.services.bitwarden-websocket.loadbalancer.server.port=3012"

@@ -1,5 +1,4 @@
 version: '3.6'
-
 services:
   traefik:
     image: traefik:v2.4
@@ -15,7 +14,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./data/traefik.yml:/traefik.yml:ro
       - ./data/acme.json:/acme.json
-      # Add folder with dynamic configuration yml
       - ./data/configurations:/configurations
     networks:
       - proxy
@@ -23,7 +21,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
       - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.rule=Host(`DOMAIN.TLD`)"
+      - "traefik.http.routers.traefik.rule=Host(`{{ subdomain }}.{{ domain }}`)"
       - "traefik.http.routers.traefik.service=api@internal"
 networks:
   proxy:

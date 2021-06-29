@@ -1,11 +1,11 @@
 version: '3.6'
 services:
   prometheus:
-    user: "0"
+#    user: "0"
     image: prom/prometheus:latest
     ports:
       - 9090:9090
     volumes:
       - /opt/docker-data/prometheus/etc:/etc/prometheus
-      - /opt/docker-data/prometheus/data:/prometheus
+#      - /opt/docker-data/prometheus/data:/prometheus
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml

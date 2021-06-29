@@ -11,7 +11,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Madrid
-      - SERVERURL=wireguardivan.duckdns.org
+      - SERVERURL={{ subdomain }}.{{ domain }}
       - SERVERPORT=51820
       - PEERS=1
       - PEERDNS=auto 
