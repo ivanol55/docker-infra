@@ -8,6 +8,8 @@ services:
       - /opt/docker-data/vaultwarden/:/data
     environment:
       - WEBSOCKET_ENABLED=true
+      - PUID={{ user_id }}
+      - PGID={{ group_id }}
     networks:
       - proxy
     labels:

@@ -8,8 +8,8 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID={{ user_id }}
+      - PGID={{ group_id }}
       - TZ=Europe/Madrid
       - SERVERURL={{ subdomain }}.{{ domain }}
       - SERVERPORT=51820

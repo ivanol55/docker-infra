@@ -2,8 +2,10 @@
   vars:
     - subdomain: SUBDOMAIN
     - domain: DOMAIN.TLD
+    - user_id: USERID
+    - group_id: GROUPID
   tasks:
     - name: build docker compose file
       template:
         src: docker-compose.yml
-        dest: ../../docker-compose/grafana/docker-compose.yml
+        dest: ../../docker-compose/vaultwarden/docker-compose.yml

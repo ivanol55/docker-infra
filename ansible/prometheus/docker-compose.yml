@@ -1,11 +1,30 @@
 version: '3.6'
 services:
   prometheus:
-#    user: "0"
     image: prom/prometheus:latest
+    container_name: prometheus
     ports:
       - 9090:9090
     volumes:
       - /opt/docker-data/prometheus/etc:/etc/prometheus
-#      - /opt/docker-data/prometheus/data:/prometheus
+      - /opt/docker-data/prometheus/data:/prometheus
+    environment:
+      - PUID={{ user_id }}
+      - PGID={{ group_id }}
     command: --web.enable-lifecycle  --config.file=/etc/prometheus/prometheus.yml
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+  blackbox-exporter:
+   image: prom/blackbox-exporter
+   container_name: blackbox
+   restart: unless-stopped
+   ports:
+     - 9115:9115

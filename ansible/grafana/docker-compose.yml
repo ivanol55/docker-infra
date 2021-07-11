@@ -1,7 +1,6 @@
 version: "3.6"
 services:
   grafana:
-    user: "0"
     networks:
       - proxy
     labels:
@@ -17,11 +16,13 @@ services:
       - /opt/docker-data/grafana/data:/var/lib/grafana
       - /opt/docker-data/grafana/etc:/etc/grafana
     environment:
+      - PUID={{ user_id }}
+      - PGID={{ group_id }}
       - GF_SERVER_ROOT_URL=https://{{ subdomain }}.{{ domain }}:3000/
       - GF_SERVER_DOMAIN={{ subdomain}}.{{ domain }}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=adminadmin
+      - GF_SECURITY_ADMIN_USER={{ username }}
+      - GF_SECURITY_ADMIN_PASSWORD={{ password }}
 networks:
   proxy:
     external: true
