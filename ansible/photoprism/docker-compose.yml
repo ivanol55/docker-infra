@@ -1,0 +1,49 @@
+version: '3.6'
+services:
+  photoprism:
+    image: photoprism/photoprism:latest
+    container_name: photoprism
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.protocol=http"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.photoprism-secure.entrypoints=websecure"
+      - "traefik.http.routers.photoprism-secure.rule=Host(`{{ subdomain }}.{{ domain }}`)"
+      - "traefik.http.routertexs.photoprism-secure.service=photoprism-service"
+      - "traefik.http.services.photoprism-service.loadbalancer.server.port=2342"
+    environment:
+      PHOTOPRISM_ADMIN_PASSWORD: "{{ password }}"
+      PHOTOPRISM_ORIGINALS_LIMIT: 60000
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_DEBUG: "false"
+      PHOTOPRISM_PUBLIC: "false"
+      PHOTOPRISM_READONLY: "false"
+      PHOTOPRISM_EXPERIMENTAL: "false"
+      PHOTOPRISM_DISABLE_WEBDAV: "false"
+      PHOTOPRISM_DISABLE_SETTINGS: "false"
+      PHOTOPRISM_DISABLE_TENSORFLOW: "false"
+      PHOTOPRISM_DARKTABLE_PRESETS: "false"
+      PHOTOPRISM_DETECT_NSFW: "false"
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+      PHOTOPRISM_DATABASE_DRIVER: "sqlite"
+      PHOTOPRISM_DATABASE_NAME: "photoprism"
+      PHOTOPRISM_DATABASE_USER: "photoprism"
+      PHOTOPRISM_DATABASE_PASSWORD: "{{ database_password }}"
+      PHOTOPRISM_SITE_URL: "https://{{ subdomain }}.{{ domain }}:443/"
+      PHOTOPRISM_SITE_TITLE: "PhotoPrism - {{username}}"
+      PHOTOPRISM_SITE_CAPTION: "Google Photos"
+      PHOTOPRISM_SITE_DESCRIPTION: "Google Photos, pero cartón"
+      PHOTOPRISM_SITE_AUTHOR: "{{ name }}"
+    user: "{{ user_id }}:{{ group_id }}"
+    volumes:
+      - "/opt/docker-data/photoprism/originals:/photoprism/originals"
+      - "/opt/docker-data/photoprism/storage:/photoprism/storage"
+networks:
+  proxy:
+    external: true

@@ -1,0 +1,14 @@
+- hosts: localhost
+  vars:
+    - subdomain: SUBDOMAIN
+    - domain: D0MAIN.TLD
+    - user_id: USERID
+    - group_id: GROUPID
+    - password: PASSWORD
+    - database_password: OTHERPASSWORD
+    - name: FULL NAME
+  tasks:
+    - name: build docker compose file
+      template:
+        src: docker-compose.yml
+        dest: ../../docker-compose/photoprism/docker-compose.yml
