@@ -1,9 +1,0 @@
-- hosts: localhost
-  vars:
-    - user_id: USERID
-    - group_id: GROUPID
-  tasks:
-    - name: build docker compose file
-      template:
-        src: docker-compose.yml
-        dest: ../../docker-compose/syncthing/docker-compose.yml
