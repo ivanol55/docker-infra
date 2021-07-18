@@ -1,0 +1,7 @@
+- hosts: localhost
+  vars:
+  tasks:
+    - name: build docker compose file
+      template:
+        src: docker-compose.yml
+        dest: ../../docker-compose/adguardhome/docker-compose.yml

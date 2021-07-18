@@ -1,0 +1,15 @@
+version: "3.6"
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 784:784/udp
+      - 853:853/tcp
+      - 3000:3000/tcp
+    volumes:
+      - /opt/docker-data/adguardhome/workdir:/opt/adguardhome/work
+      - /opt/docker-data/adguardhome/confdir:/opt/adguardhome/conf
+    restart: unless-stopped
