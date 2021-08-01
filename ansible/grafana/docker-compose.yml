@@ -24,6 +24,14 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SECURITY_ADMIN_USER={{ username }}
       - GF_SECURITY_ADMIN_PASSWORD={{ password }}
+      - GF_RENDERING_SERVER_URL=http://renderer:8081/render
+      - GF_RENDERING_CALLBACK_URL=https://{{ subdomain }}.{{ domain }}/
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - 8081
+    environment:
+      - ENABLE_METRICS=true
 networks:
   proxy:
     external: true
