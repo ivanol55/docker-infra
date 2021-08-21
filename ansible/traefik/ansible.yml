@@ -12,3 +12,7 @@
       template:
         src: data/traefik.yml
         dest: ../../docker-compose/traefik/data/traefik.yml
+    - name: set permissions por traefik certificate file
+      file:
+        path: ../../docker-compose/traefik/data/acme.json
+        mode: 0644
